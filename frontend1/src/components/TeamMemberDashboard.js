@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { getAssignedTasks, updateTaskStatus } from '../api/task';
+import './TeamMemberDashboard.css'
 
 const TeamMemberDashboard = () => {
   const [tasks, setTasks] = useState([]);

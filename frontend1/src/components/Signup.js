@@ -1,8 +1,9 @@
-// frondend/src/components/Signup.js
+// Signup.js
 
 import React, { useState } from 'react';
 import { signup } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
+import './signup.css';  // Import the yellow tech theme CSS
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -24,7 +25,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="signup-container">
       <h2>Signup</h2>
       <form onSubmit={handleSubmit}>
         <div>

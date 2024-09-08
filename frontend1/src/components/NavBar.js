@@ -156,6 +156,9 @@ const NavBar = () => {
             <li>
               <Link to="/signup" className="nav-link">Signup</Link>
             </li>
+            <li>
+              <Link to="/about" className="nav-link">AboutUs</Link>
+            </li>
           </>
         ) : (
           <>
@@ -177,6 +180,9 @@ const NavBar = () => {
             )}
             <li>
               <button onClick={handleLogout} className="logout-button">Logout</button>
+            </li>
+            <li>
+              <Link to="/about" className="nav-link">AboutUs</Link>
             </li>
           </>
         )}

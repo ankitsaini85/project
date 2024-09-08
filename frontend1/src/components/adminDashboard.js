@@ -1,7 +1,6 @@
-// frondend/src/components/AdminDashboard.js
-
 import React, { useEffect, useState } from 'react';
 import { getAllUsers, getAllTasks, getAllTeams, deleteUser } from '../api/admin';
+import './AdminDashboard.css';  // Import the CSS file
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -35,7 +34,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div>
+    <div className="dashboard-container">
       <h2>Admin Dashboard</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       
