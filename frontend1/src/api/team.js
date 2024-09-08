@@ -3,7 +3,7 @@
 import { getToken } from './auth'; // Import getToken from auth.js
 
 export const createTeam = async (teamData) => {
-    const response = await fetch('http://localhost:5000/api/team', {
+    const response = await fetch('http://localhost:5000/api/teams', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -13,6 +13,15 @@ export const createTeam = async (teamData) => {
     });
     return await response.json();
 };
+export const deleteTeam = async () => {
+    const response = await fetch('http://localhost:5000/api/teams', {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return await response.json();
+  };
 
 export const assignTask = async (taskData) => {
     const response = await fetch('http://localhost:5000/api/task/assign', {

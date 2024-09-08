@@ -5,13 +5,35 @@ const Task = require('../models/Task');
 
 const createTeam = async (req, res) => {
     const { name, members } = req.body;
+    const leader = req.user.email;  // Assuming req.user contains the authenticated user's info
+  
     try {
-        const team = new Team({ name, members });
-        await team.save();
-        res.status(201).json({ success: true, data: team });
+      const existingTeam = await Team.findOne({ leader });
+      if (existingTeam) {
+        return res.status(400).json({ success: false, message: 'Team already exists for this leader' });
+      }
+  
+      const team = new Team({ name, members, leader });
+      await team.save();
+      res.status(201).json({ success: true, data: team });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error creating team' });
+      res.status(500).json({ success: false, message: error.message });
     }
+  };
+
+
+const deleteTeam = async (req, res) => {
+  const leader = req.user.email;  // Assuming req.user contains the authenticated user's info
+
+  try {
+    const team = await Team.findOneAndDelete({ leader });
+    if (!team) {
+      return res.status(404).json({ success: false, message: 'Team not found' });
+    }
+    res.status(200).json({ success: true, message: 'Team deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 const assignTask = async (req, res) => {
@@ -61,4 +83,5 @@ module.exports = {
     getTeamProgress,
     getAssignedTasks,
     updateTaskStatus,
+    deleteTeam
 };

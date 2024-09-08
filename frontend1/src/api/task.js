@@ -6,7 +6,7 @@ import { getToken } from './auth'; // Import getToken from auth.js
 // API to get assigned tasks for the team member
 export const getAssignedTasks = async () => {
   try {
-    const response = await axios.get('/api/task/assigned', {
+    const response = await axios.get('http://localhost:5000/api/task/assigned', {
       headers: { Authorization: `Bearer ${getToken()}` }, // Use JWT token for authorization
     });
     return response.data;
@@ -18,7 +18,7 @@ export const getAssignedTasks = async () => {
 // API to update task status
 export const updateTaskStatus = async (taskId, updatedStatus) => {
   try {
-    const response = await axios.put(`/api/task/${taskId}/status`, updatedStatus, {
+    const response = await axios.put(`http://localhost:5000/api/task/${taskId}/status`, updatedStatus, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
     return response.data;

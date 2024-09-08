@@ -5,13 +5,36 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Signup handler
+// const signup = async (req, res) => {
+//   const { name, email, password, role } = req.body;
+//   try {
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const user = new User({ name, email, password: hashedPassword, role });
+//     await user.save();
+//     res.status(201).json({ message: 'User registered' });
+//   } catch (error) {
+//     console.error('Error during signup:', error); // Log the error
+//     res.status(500).json({ error: error.message || 'Error registering user' });
+//   }
+// };
+
 const signup = async (req, res) => {
   const { name, email, password, role } = req.body;
+  const allowedAdminEmails = ['ankitsaini28052003@gmail.com'];
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword, role });
-    await user.save();
-    res.status(201).json({ message: 'User registered' });
+    if (role === 'admin' && allowedAdminEmails.includes(email.toLowerCase())) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({ name, email, password: hashedPassword, role });
+      await user.save();
+      res.status(201).json({ message: 'User registered' });
+    } else if (role !== 'admin') {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({ name, email, password: hashedPassword, role });
+      await user.save();
+      res.status(201).json({ message: 'User registered' });
+    } else {
+      res.status(400).json({ message: 'Invalid admin name' });
+    }
   } catch (error) {
     console.error('Error during signup:', error); // Log the error
     res.status(500).json({ error: error.message || 'Error registering user' });
