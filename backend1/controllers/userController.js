@@ -1,11 +1,8 @@
+// backend/controllers/userController.js
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const cors = require('cors');
-
-
-
-
 
 // Signup handler
 const signup = async (req, res) => {
@@ -16,7 +13,8 @@ const signup = async (req, res) => {
     await user.save();
     res.status(201).json({ message: 'User registered' });
   } catch (error) {
-    res.status(500).json({ error });
+    console.error('Error during signup:', error); // Log the error
+    res.status(500).json({ error: error.message || 'Error registering user' });
   }
 };
 
@@ -31,7 +29,8 @@ const login = async (req, res) => {
     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token, role: user.role, userId: user._id });
   } catch (error) {
-    res.status(500).json({ error });
+    console.error('Error during login:', error); // Log the error
+    res.status(500).json({ error: error.message || 'Error logging in' });
   }
 };
 

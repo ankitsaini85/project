@@ -4,10 +4,8 @@ const connectDB = async () => {
   const PASSWORD = 'ankit7500057688';
   const DB_NAME = 'merndb7';
   try {
-    await mongoose.connect(`mongodb+srv://${USER_NAME}:${PASSWORD}@merncluster.2k4wx.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=merncluster`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(`mongodb+srv://${USER_NAME}:${PASSWORD}@merncluster.2k4wx.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=merncluster`
+    );
     console.log('MongoDB Connected');
   } catch (err) {
     console.error(err.message);

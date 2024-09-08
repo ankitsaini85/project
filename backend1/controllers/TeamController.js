@@ -1,4 +1,4 @@
-// backend/controllers/teamController.js
+// backend/controllers/TeamController.js
 
 const Team = require('../models/Team');
 const Task = require('../models/Task');
@@ -34,8 +34,31 @@ const getTeamProgress = async (req, res) => {
     }
 };
 
+const getAssignedTasks = async (req, res) => {
+    const userEmail = req.user.email; // Assuming you have user email in req.user
+    try {
+        const tasks = await Task.find({ assignee: userEmail });
+        res.status(200).json({ success: true, data: tasks });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching assigned tasks' });
+    }
+};
+
+const updateTaskStatus = async (req, res) => {
+    const { taskId } = req.params;
+    const { status } = req.body;
+    try {
+        const task = await Task.findByIdAndUpdate(taskId, { status }, { new: true });
+        res.status(200).json({ success: true, data: task });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating task status' });
+    }
+};
+
 module.exports = {
     createTeam,
     assignTask,
     getTeamProgress,
+    getAssignedTasks,
+    updateTaskStatus,
 };
