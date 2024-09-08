@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import NavBar from './components/NavBar';
 import TeamLeaderDashboard from './components/TeamLeaderDashboard';
 import TeamMemberDashboard from './components/TeamMemberDashboard';
+import './App.css';
 
 const App = () => (
   <Router>

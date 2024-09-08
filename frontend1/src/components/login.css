@@ -1,0 +1,141 @@
+/* Container for the login form */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 5% auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    text-align: center;
+    animation: fadeIn 0.7s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    background: linear-gradient(145deg, #ff9ff3, #feca57);
+  }
+  
+  /* Title Styling */
+  .login-container h2 {
+    color: #1e272e;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1.5px;
+    animation: slideDown 0.6s ease-in-out;
+  }
+  
+  /* Error Message Styling */
+  .error-message {
+    color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.2);
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  /* Form Group Styling */
+  .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  /* Label Styling */
+  .form-group label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #576574;
+  }
+  
+  /* Input Field Styling */
+  .form-group input {
+    width: 95%;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    background-color: #f1f2f6;
+    transition: border 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+  
+  /* Input Field Focus Effect */
+  .form-group input:focus {
+    border-color: #00d2d3;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 12px rgba(0, 210, 211, 0.4);
+    outline: none;
+  }
+  
+  /* Button Styling */
+  button[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #1dd1a1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 10px rgba(29, 209, 161, 0.2);
+  }
+  
+  /* Button Hover Effect */
+  button[type="submit"]:hover {
+    background-color: #10ac84;
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(16, 172, 132, 0.4);
+  }
+  
+  /* Button Active Effect */
+  button[type="submit"]:active {
+    background-color: #0c8670;
+    transform: scale(0.98);
+    box-shadow: 0 4px 8px rgba(12, 134, 112, 0.2);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Media Query for Smaller Devices */
+  @media (max-width: 768px) {
+    .login-container {
+      padding: 1.5rem;
+      margin-top: 10%;
+    }
+  
+    .login-container h2 {
+      font-size: 1.6rem;
+    }
+  
+    .form-group input {
+      font-size: 1rem;
+    }
+  
+    button[type="submit"] {
+      font-size: 1rem;
+    }
+  }
+  

@@ -1,4 +1,4 @@
-/* App.css */
+/* App.css
 .App {
   text-align: center;
   font-family: 'Roboto', sans-serif;
@@ -41,5 +41,150 @@
   }
   to {
     transform: rotate(360deg);
+  }
+} */
+ /* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root container */
+html, body {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f6fa;
+  color: #2c3e50;
+  scroll-behavior: smooth;
+}
+
+/* Layout container for main content */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #2c3e50;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: #f39c12;
+}
+
+/* HomePage specific styles */
+.homepage {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: linear-gradient(145deg, #ff9ff3, #feca57);
+  color: #2d3436;
+}
+
+.homepage h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.homepage p {
+  font-size: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Auth Pages (Login, Signup) */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+}
+
+.auth-page h2 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+/* Dashboard specific styles */
+.dashboard {
+  padding: 2rem;
+  text-align: center;
+}
+
+.dashboard h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.dashboard p {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+}
+
+/* Footer styles */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #2c3e50;
+  color: white;
+  margin-top: 2rem;
+}
+
+.footer p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.footer a {
+  color: #f39c12;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .navbar a {
+    padding: 0.5rem 0;
+  }
+
+  .homepage h1 {
+    font-size: 2.5rem;
+  }
+
+  .homepage p {
+    font-size: 1.2rem;
+  }
+
+  .auth-page h2 {
+    font-size: 2rem;
   }
 }

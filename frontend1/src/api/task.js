@@ -1,5 +1,7 @@
+// frondend/src/api/task.js
+
 import axios from 'axios';
-import { getToken } from './auth'; // Assuming you store the token
+import { getToken } from './auth'; // Import getToken from auth.js
 
 // API to get assigned tasks for the team member
 export const getAssignedTasks = async () => {
