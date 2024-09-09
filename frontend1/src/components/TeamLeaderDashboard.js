@@ -577,7 +577,7 @@
 //after saving the team members in local storage
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createTeam, assignTask, getTeamProgress, deleteTeam } from '../api/team.js';  // Import API calls
+import { createTeam, assignTask, getTeamProgress, getTeamDetails, deleteTeam } from '../api/team.js';  // Import API calls
 import { getToken } from '../api/auth.js';  
 
 const TeamLeaderDashboard = () => {
@@ -587,12 +587,13 @@ const TeamLeaderDashboard = () => {
   const [task, setTask] = useState('');
   const [assignee, setAssignee] = useState('');
   const [teamProgress, setTeamProgress] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [team, setTeam] = useState(null);
+  const [teamMembers, setTeamMembers] = useState([]);  // State to store team members
+  const [team, setTeam] = useState(null);  // State to store team details
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
+    // Fetch team progress on component mount
     const fetchTeamProgress = async () => {
       try {
         const response = await getTeamProgress();
@@ -608,34 +609,20 @@ const TeamLeaderDashboard = () => {
 
     fetchTeamProgress();
 
-    // Retrieve team details from localStorage
-    const storedTeam = localStorage.getItem('team');
-    if (storedTeam) {
-      const parsedTeam = JSON.parse(storedTeam);
-      setTeam(parsedTeam);
-      setTeamMembers(parsedTeam.members);
-    } else {
-      // Fetch team details from backend if not found in localStorage
-      const fetchTeamDetails = async () => {
-        try {
-          const response = await fetch('http://localhost:5000/api/teams', {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          });
-          const data = await response.json();
-          if (data.success) {
-            setTeam(data.data);
-            setTeamMembers(data.data.members);
-            localStorage.setItem('team', JSON.stringify(data.data));  // Store team details in localStorage
-          } else {
-            setErrorMessage('Error fetching team details');
-          }
-        } catch (error) {
+    // Fetch team details from backend
+    const fetchTeamDetails = async () => {
+      try {
+        const response = await getTeamDetails();
+        if (response.success) {
+          setTeam(response.data);
+          setTeamMembers(response.data.members);
+        } else {
           setErrorMessage('Error fetching team details');
         }
-      };
+      } catch (error) {
+        setErrorMessage('Error fetching team details');
+      }
+    };
 
     fetchTeamDetails();
   }, []);
@@ -647,19 +634,18 @@ const TeamLeaderDashboard = () => {
       if (response.success) {
         setSuccessMessage('Team created successfully');
         setErrorMessage('');
-        setTeamName('');
+        setTeamName('');  
         setMembers('');
         const newTeamMembers = members.split(',');
-        setTeamMembers(newTeamMembers);
+        setTeamMembers(newTeamMembers);  // Update team members state
         const newTeam = { name: teamName, members: newTeamMembers };
         setTeam(newTeam);  // Update team state
-        localStorage.setItem('team', JSON.stringify(newTeam));  // Store team details in localStorage
       } else {
         setErrorMessage(response.message || 'Error creating team');
         setSuccessMessage('');
       }
     } catch (error) {
-      setErrorMessage('Error creating team');
+      setErrorMessage('Error creating team catch');
       setSuccessMessage('');
     }
   };
@@ -689,7 +675,6 @@ const TeamLeaderDashboard = () => {
         setErrorMessage('');
         setTeam(null);  // Clear team state
         setTeamMembers([]);  // Clear team members state
-        localStorage.removeItem('team');  // Remove team details from localStorage
       } else {
         setErrorMessage(response.message || 'Error deleting team');
         setSuccessMessage('');
@@ -701,9 +686,10 @@ const TeamLeaderDashboard = () => {
   };
 
   return (
-    <div className="team-leader-dashboard-container">
+    <div>
       <h2>Team Leader Dashboard</h2>
 
+      {/* Create Team Section */}
       <div className="create-team-section">
         <h3>Create Team</h3>
         <form onSubmit={handleCreateTeam}>
@@ -731,6 +717,7 @@ const TeamLeaderDashboard = () => {
         </form>
       </div>
 
+      {/* Display Team Section */}
       {team && (
         <div className="team-details-section">
           <h3>Team Details</h3>
@@ -740,6 +727,7 @@ const TeamLeaderDashboard = () => {
         </div>
       )}
 
+      {/* Assign Task Section */}
       <div className="assign-task-section">
         <h3>Assign Task</h3>
         <form onSubmit={handleAssignTask}>
@@ -774,6 +762,7 @@ const TeamLeaderDashboard = () => {
         </form>
       </div>
 
+      {/* View Team Progress Section */}
       <div className="team-progress-section">
         <h3>View Team Progress</h3>
         {teamProgress.length > 0 ? (
@@ -800,6 +789,7 @@ const TeamLeaderDashboard = () => {
         )}
       </div>
 
+      {/* Display Messages */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
     </div>
