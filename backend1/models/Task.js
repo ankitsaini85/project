@@ -1,5 +1,3 @@
-// backend/models/Task.js
-
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
@@ -15,6 +13,10 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'In Progress', 'Completed'],
         default: 'Pending',
+    },
+    leader: {
+        type: String, // Leader email
+        required: true,
     },
 });
 

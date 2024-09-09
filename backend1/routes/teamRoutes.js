@@ -1,17 +1,14 @@
-
-
 const express = require('express');
-const { createTeam, assignTask, getTeamProgress, getAssignedTasks, updateTaskStatus } = require('../controllers/TeamController');
-const { deleteTeam } = require('../controllers/TeamController');
+const { createTeam, assignTask, getTeamProgress, getAssignedTasks, updateTaskStatus, getTeamDetails, deleteTeam } = require('../controllers/TeamController');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// router.post('/team', createTeam);
 router.post('/teams', authMiddleware, createTeam);
-router.delete('/teams', authMiddleware, deleteTeam); 
-router.post('/task/assign', assignTask);
-router.get('/team/progress', getTeamProgress);
-router.get('/task/assigned', getAssignedTasks); // New route for getting assigned tasks
-router.put('/task/:taskId/status', updateTaskStatus); // New route for updating task status
+router.delete('/teams', authMiddleware, deleteTeam);
+router.post('/task/assign', authMiddleware, assignTask);
+router.get('/team/progress', authMiddleware, getTeamProgress); // Updated route
+router.get('/team/details', authMiddleware, getTeamDetails); // Updated route
+router.get('/task/assigned', authMiddleware, getAssignedTasks);
+router.put('/task/:taskId/status', authMiddleware, updateTaskStatus);
 
 module.exports = router;

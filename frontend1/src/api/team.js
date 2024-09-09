@@ -1,5 +1,3 @@
-// frondend/src/api/team.js
-
 import { getToken } from './auth'; // Import getToken from auth.js
 
 export const createTeam = async (teamData) => {
@@ -13,15 +11,16 @@ export const createTeam = async (teamData) => {
     });
     return await response.json();
 };
+
 export const deleteTeam = async () => {
     const response = await fetch('http://localhost:5000/api/teams', {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+        },
     });
     return await response.json();
-  };
+};
 
 export const assignTask = async (taskData) => {
     const response = await fetch('http://localhost:5000/api/task/assign', {
@@ -37,6 +36,17 @@ export const assignTask = async (taskData) => {
 
 export const getTeamProgress = async () => {
     const response = await fetch('http://localhost:5000/api/team/progress', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`, // Include the JWT token
+        },
+    });
+    return await response.json();
+};
+
+export const getTeamDetails = async () => {
+    const response = await fetch('http://localhost:5000/api/team/details', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

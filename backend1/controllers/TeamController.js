@@ -4,29 +4,28 @@ const Team = require('../models/Team');
 const Task = require('../models/Task');
 
 const createTeam = async (req, res) => {
+  try {
     const { name, members } = req.body;
-    const leader = req.user.email;  // Assuming req.user contains the authenticated user's info
-  
-    try {
-      const existingTeam = await Team.findOne({ leader });
-      if (existingTeam) {
-        return res.status(400).json({ success: false, message: 'Team already exists for this leader' });
-      }
-  
-      const team = new Team({ name, members, leader });
-      await team.save();
-      res.status(201).json({ success: true, data: team });
-    } catch (error) {
-      res.status(500).json({ success: false, message: error.message });
+    const leader = req.user.email; // Assuming req.user contains the authenticated user's info
+    const exitstingTeam=await Team.findOne({leader});
+    if(exitstingTeam){
+      return res.status(400).json({ success: false, message: 'Team already exists' });
     }
-  };
+    const team = new Team({ name, members, leader });
+    await team.save();
 
+    res.status(201).json({ success: true, data: team });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 const deleteTeam = async (req, res) => {
-  const leader = req.user.email;  // Assuming req.user contains the authenticated user's info
+  const userEmail = req.user.email;  // Assuming req.user contains the authenticated user's info
 
   try {
-    const team = await Team.findOneAndDelete({ leader });
+    await Task.deleteMany({ leader: userEmail});
+    const team = await Team.findOneAndDelete({ leader: userEmail });
     if (!team) {
       return res.status(404).json({ success: false, message: 'Team not found' });
     }
@@ -37,23 +36,31 @@ const deleteTeam = async (req, res) => {
 };
 
 const assignTask = async (req, res) => {
-    const { task, assignee } = req.body;
-    try {
-        const newTask = new Task({ task, assignee });
-        await newTask.save();
-        res.status(201).json({ success: true, data: newTask });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error assigning task' });
-    }
+  const { task, assignee } = req.body;
+  try {
+    const leader = req.user.email; // Get the leader's email from the authenticated user
+    const newTask = new Task({ task, assignee, leader });
+    await newTask.save();
+    res.status(201).json({ success: true, data: newTask });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error assigning task' });
+  }
 };
 
 const getTeamProgress = async (req, res) => {
-    try {
-        const tasks = await Task.find();
-        res.status(200).json({ success: true, data: tasks });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error fetching team progress' });
+  try {
+    const userEmail = req.user.email; // Assuming req.user contains the authenticated user's info
+
+    const tasks = await Task.find({ leader: userEmail });
+
+    if (!tasks) {
+      return res.status(404).json({ success: false, message: 'No tasks found' });
     }
+
+    res.status(200).json({ success: true, data: tasks });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 const getAssignedTasks = async (req, res) => {
@@ -76,6 +83,21 @@ const updateTaskStatus = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error updating task status' });
     }
 };
+const getTeamDetails = async (req, res) => {
+  try {
+    const userEmail = req.user.email; // Assuming req.user contains the authenticated user's info
+
+    const team = await Team.findOne({ leader: userEmail });
+
+    if (!team) {
+      return res.status(404).json({ success: false, message: 'Team not found' });
+    }
+
+    res.status(200).json({ success: true, data: team });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 module.exports = {
     createTeam,
@@ -83,5 +105,6 @@ module.exports = {
     getTeamProgress,
     getAssignedTasks,
     updateTaskStatus,
-    deleteTeam
+    deleteTeam,
+    getTeamDetails,
 };

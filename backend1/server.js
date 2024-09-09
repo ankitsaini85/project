@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('API is running'));
 app.use('/api', authRoutes);
-app.use('/api', authMiddleware, teamRoutes);
+app.use('/api', teamRoutes);
 app.use('/api/admin', adminRoutes);
 
 
